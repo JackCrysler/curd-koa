@@ -6,12 +6,12 @@ const roles = [
     { rolename: `访客`, roletype: `2` },
 ]
 let add_manger = async (ctx, next) => {
-    console.log('add_manager')
     if (ctx.request.body) {
         //把用户信息存到指定数据库
         let {
             username,
-            password
+            password,
+            role=1
         } = ctx.request.body;
 
 
@@ -32,7 +32,7 @@ let add_manger = async (ctx, next) => {
         let {
             rolename,
             roletype
-        } = roles[0];
+        } = roles[role];
         try {
             await ctx.mysql.query(`insert into manager (user_id, user_name, user_pwd, create_date, role, roletype) values ('${manager_id}', '${username}','${user_pwd}',LOCALTIME(),'${rolename}','${roletype}');`)
             ctx.response.body = {
