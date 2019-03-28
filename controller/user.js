@@ -4,6 +4,7 @@ let del_user = async (ctx,next)=>{
         let username = jwt.verify(ctx.headers.authorization,ctx.state.key);
         let {uid} = ctx.request.body
         let resuls = await ctx.mysql.query(`DELETE FROM user WHERE user_id='${uid}';`)
+
         ctx.response.body={
             msg:'删除成功',
             code:1,
