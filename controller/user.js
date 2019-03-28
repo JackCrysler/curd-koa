@@ -1,9 +1,20 @@
 const jwt = require('jsonwebtoken')
 let del_user = async (ctx,next)=>{
-    console.log(ctx.headers.authorization)
-    ctx.response.body={
-        msg:'success',
-        code:1
+    try{
+        let username = jwt.verify(ctx.headers.authorization,ctx.state.key);
+        let {uid} = ctx.request.body
+        let resuls = await ctx.mysql.query(`DELETE FROM user WHERE user_id='${uid}';`)
+        ctx.response.body={
+            msg:'删除成功',
+            code:1,
+            executor: username
+        }
+    }catch(err){
+        ctx.response.status = 401
+        ctx.response.body = {
+            msg:'没有权限',
+            code: 0
+        }
     }
 }
 let all_users = async (ctx,next)=>{

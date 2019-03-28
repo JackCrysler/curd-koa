@@ -3,7 +3,7 @@
  * @Author: Jacky
  * @LastEditors: Please set LastEditors
  * @Date: 2019-03-25 13:34:30
- * @LastEditTime: 2019-03-27 18:27:50
+ * @LastEditTime: 2019-03-28 09:38:01
  */
 //MVC
 
@@ -21,7 +21,8 @@ app.use(mysql)
 app.use(async (ctx,next)=>{
     ctx.state.key = 'Hello Kitty'
     ctx.headers={
-        'Access-Control-Allow-Headers':"authrization"
+        'Access-Control-Allow-Headers':"authrization",
+        'Access-Control-Allow-Origin':'*'
     }
     await next()
 })
