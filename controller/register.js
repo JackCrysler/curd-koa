@@ -1,6 +1,5 @@
 const fs = require('mz/fs')
 const jwt = require('jsonwebtoken')
-const secretkey = '1608A'
 const crypto = require('crypto');
 let register_api = async (ctx, next) => {
 
@@ -11,20 +10,21 @@ let register_api = async (ctx, next) => {
             password
         } = ctx.request.body;
         
-        let res = jwt.sign(username, secretkey);
+        let uid = jwt.sign(username, ctx.state.key);
         const hmac = crypto.createHmac('sha256', 'Jacky');
         hmac.update(password);
-
-        let shaPwd = hmac.digest('hex')
+        let userpwd = hmac.digest('hex')
         
         try{
-            await ctx.mysql.query(`insert into user (user_id, user_name, user_pwd, create_date) values ('${res}', '${username}','${shaPwd}',LOCALTIME());`)
+            await ctx.mysql.query(`insert into user (user_id, user_name, user_pwd, create_date) values ('${uid}', '${username}','${userpwd}',LOCALTIME());`)
+            
             ctx.response.body = {
                 msg: '注册成功',
                 code: 1
             }
         }catch(err){
-            ctx.response.status = 402;
+            console.log(err)
+            ctx.response.status = 400;
             ctx.response.body = {
                 msg: '注册失败，用户名已存在',
                 code: 0

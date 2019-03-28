@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `user`(
    `user_pwd` VARCHAR(100) NOT NULL,
    `nickname` VARCHAR(100),
    `gender` VARCHAR(10),
-   `phone_number` INT(100),
+   `phone_number` VARCHAR(255),
    `create_date` DATETIME,
    `email` VARCHAR(100),
    `status` VARCHAR(100),
